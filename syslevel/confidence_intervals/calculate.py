@@ -21,7 +21,7 @@ def main(args):
             coefficient,
             args.resampling_method,
             paired_inputs=paired_inputs,
-            n_resamples=1000
+            n_resamples=1000,
         )
 
         with open(f"{args.output_dir}/{coefficient}.txt", "w") as out:

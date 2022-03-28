@@ -9,7 +9,7 @@ from syslevel.util import COLOR_MAP, GROUND_TRUTH, SMALL_METRICS, load_matrices
 def main(args):
     fontsize = 14
 
-    plt.rcParams.update({'font.size': fontsize})
+    plt.rcParams.update({"font.size": fontsize})
 
     metrics = [GROUND_TRUTH] + SMALL_METRICS
     Xs, _ = load_matrices(args.metrics_jsonl, False, metrics)
@@ -25,9 +25,10 @@ def main(args):
             0.01,
             0.01,
             name,
-            verticalalignment='bottom', horizontalalignment='left',
+            verticalalignment="bottom",
+            horizontalalignment="left",
             transform=ax.transAxes,
-            fontsize=fontsize
+            fontsize=fontsize,
         )
 
         ax.set_yticks([])
@@ -40,7 +41,7 @@ def main(args):
     plt.savefig(args.output_file)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     argp = argparse.ArgumentParser()
     argp.add_argument("--metrics-jsonl", required=True)
     argp.add_argument("--output-file", required=True)
