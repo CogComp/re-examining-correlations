@@ -1,7 +1,7 @@
 import gzip
 import json
 import numpy as np
-from typing import List, Tuple
+from typing import Dict, List, Tuple
 
 METRICS = ["ROUGE-1", "ROUGE-2", "ROUGE-L", "BERTScore", "QAEval"]
 SMALL_METRICS = ["ROUGE-1", "BERTScore", "QAEval"]
@@ -16,6 +16,13 @@ COLOR_MAP = {
     'QAEval': '#a0d569',
     GROUND_TRUTH: '#ad92eb'
 }
+
+
+def _get_value(metrics_dict: Dict, key: Tuple[str, str], metric: str) -> float:
+    value = metrics_dict[key][metric]
+    if isinstance(value, list):
+        return np.mean(value)
+    return value
 
 
 def load_matrices(input_file: str, require_parallel: bool, metrics: List[str]) -> Tuple[List[np.ndarray], List[str]]:
@@ -48,12 +55,12 @@ def load_matrices(input_file: str, require_parallel: bool, metrics: List[str]) -
             for j, instance_id in enumerate(instance_ids):
                 key = (instance_id, summarizer_id)
                 if require_parallel:
-                    matrix[i, j] = metrics_dict[key][metric]
+                    matrix[i, j] = _get_value(metrics_dict, key, metric)
                 else:
                     if key not in metrics_dict or metric not in metrics_dict[key]:
                         matrix[i, j] = np.nan
                     else:
-                        matrix[i, j] = metrics_dict[key][metric]
+                        matrix[i, j] = _get_value(metrics_dict, key, metric)
         matrices.append(matrix)
 
     return matrices, summarizer_ids
@@ -78,7 +85,7 @@ def bootstrap_system_scores(X: np.ndarray, num_iterations: int) -> np.ndarray:
 def get_dataset_title(dataset: str) -> str:
     if dataset == "summeval":
         return "SummEval (Fabbri et al., 2021)"
-    elif dataset == "bhandari2020":
-        return "realsumm (Bhandari et al., 2020)"
+    elif dataset == "realsumm":
+        return "REALSumm (Bhandari et al., 2020)"
     else:
         raise Exception()
