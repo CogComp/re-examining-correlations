@@ -27,6 +27,7 @@ def main(args):
 
             instance_id = instance["instance_id"]
             summarizer_id = instance["summarizer_id"]
+            summarizer_type = instance["summarizer_type"]
 
             candidate = instance["summary"]["text"]
             if "reference" in instance:
@@ -37,6 +38,7 @@ def main(args):
             inputs.append({
                 "instance_id": instance_id,
                 "summarizer_id": summarizer_id,
+                "summarizer_type": summarizer_type,
                 "candidate": candidate,
                 "references": [reference]
             })
