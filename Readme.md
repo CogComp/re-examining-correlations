@@ -9,6 +9,7 @@ The code has few dependencies, which are contained in the `requirements.txt`.
 You can create a Conda environment for this code by:
 ```shell script
 conda create -n re-examining python=3.7
+conda activate re-examining
 pip install -r requirements.txt
 ```
 
