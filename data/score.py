@@ -12,11 +12,16 @@ def save(inputs: List, micro: List, output_file: str) -> None:
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
     with open(output_file, "w") as out:
         for inp, metrics in zip(inputs, micro):
-            out.write(json.dumps({
-                "instance_id": inp["instance_id"],
-                "summarizer_id": inp["summarizer_id"],
-                "metrics": metrics
-            }) + "\n")
+            out.write(
+                json.dumps(
+                    {
+                        "instance_id": inp["instance_id"],
+                        "summarizer_id": inp["summarizer_id"],
+                        "metrics": metrics,
+                    }
+                )
+                + "\n"
+            )
 
 
 def main(args):
@@ -35,13 +40,15 @@ def main(args):
             else:
                 reference = instance["references"][0]["text"]
 
-            inputs.append({
-                "instance_id": instance_id,
-                "summarizer_id": summarizer_id,
-                "summarizer_type": summarizer_type,
-                "candidate": candidate,
-                "references": [reference]
-            })
+            inputs.append(
+                {
+                    "instance_id": instance_id,
+                    "summarizer_id": summarizer_id,
+                    "summarizer_type": summarizer_type,
+                    "candidate": candidate,
+                    "references": [reference],
+                }
+            )
 
     metric = ROUGE()
     _, micro = metric.predict_batch(inputs)
@@ -56,7 +63,7 @@ def main(args):
     save(inputs, micro, f"{args.output_dir}/qaeval.jsonl")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     argp = argparse.ArgumentParser()
     argp.add_argument("--input-jsonl", required=True)
     argp.add_argument("--device", required=True, type=int)

@@ -5,7 +5,13 @@ import numpy as np
 from scipy.stats import kendalltau
 from typing import List, Tuple
 
-from syslevel.util import COLOR_MAP, GROUND_TRUTH, SMALL_METRICS, load_matrices, get_dataset_title
+from syslevel.util import (
+    COLOR_MAP,
+    GROUND_TRUTH,
+    SMALL_METRICS,
+    load_matrices,
+    get_dataset_title,
+)
 
 
 def get_num_inputs_list(M: int, scale: str) -> Tuple[List[int], List[int]]:
@@ -17,7 +23,7 @@ def get_num_inputs_list(M: int, scale: str) -> Tuple[List[int], List[int]]:
         labels = []
         max_log = np.log10(M)
         for i in np.arange(2, max_log, 0.05):
-            sizes.append(int(10 ** i))
+            sizes.append(int(10**i))
             labels.append(i)
         if sizes[-1] != M:
             sizes.append(M)
@@ -54,14 +60,12 @@ def plot(
     xvalues: List[int],
     num_iterations: int,
 ):
-    correlations = sample_self_correlation(X, num_inputs_list,  num_iterations)
+    correlations = sample_self_correlation(X, num_inputs_list, num_iterations)
     mean = np.mean(correlations, axis=1)
     std = np.std(correlations, axis=1)
 
     (line,) = ax.plot(xvalues, mean, label=metric, color=COLOR_MAP[metric])
-    ax.fill_between(
-        xvalues, mean - std, mean + std, color=COLOR_MAP[metric], alpha=0.2
-    )
+    ax.fill_between(xvalues, mean - std, mean + std, color=COLOR_MAP[metric], alpha=0.2)
     return line
 
 
@@ -69,10 +73,12 @@ def main(args):
     num_iterations = 1000
     fontsize = 16
 
-    plt.rcParams.update({'font.size': fontsize})
+    plt.rcParams.update({"font.size": fontsize})
 
     Xs_all, _ = load_matrices(args.all_metrics_jsonl, False, SMALL_METRICS)
-    Xs_judged, _ = load_matrices(args.judged_metrics_jsonl, True, [GROUND_TRUTH] + SMALL_METRICS)
+    Xs_judged, _ = load_matrices(
+        args.judged_metrics_jsonl, True, [GROUND_TRUTH] + SMALL_METRICS
+    )
 
     N, M_judged = Xs_judged[0].shape
     num_inputs_judged, xlabels_judged = get_num_inputs_list(M_judged, "normal")
@@ -84,7 +90,9 @@ def main(args):
 
     lines = []
     for metric, X_jud in zip([GROUND_TRUTH] + SMALL_METRICS, Xs_judged):
-        line = plot(ax1, X_jud, metric, num_inputs_judged, xlabels_judged, num_iterations)
+        line = plot(
+            ax1, X_jud, metric, num_inputs_judged, xlabels_judged, num_iterations
+        )
         lines.append(line)
 
     for metric, X_all in zip(SMALL_METRICS, Xs_all):
@@ -109,13 +117,13 @@ def main(args):
     plt.tight_layout(pad=0.5)
 
     os.makedirs(args.output_dir, exist_ok=True)
-    output_file = f'{args.output_dir}/{args.dataset}.pdf'
-    print(f'Saving plot to {output_file}')
+    output_file = f"{args.output_dir}/{args.dataset}.pdf"
+    print(f"Saving plot to {output_file}")
     plt.savefig(output_file)
     plt.close()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     argp = argparse.ArgumentParser()
     argp.add_argument("--all-metrics-jsonl", required=True)
     argp.add_argument("--judged-metrics-jsonl", required=True)

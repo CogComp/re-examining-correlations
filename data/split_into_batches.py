@@ -13,13 +13,18 @@ def main(args):
     num_instances_per_chunk = int(math.ceil(num_instances / args.num_batches))
 
     with contextlib.ExitStack() as stack:
-        writers = [stack.enter_context(JsonlWriter(f'{args.output_dir}/{i}.jsonl.gz')) for i in range(args.num_batches)]
-        for i, writer in zip(range(0, len(instances), num_instances_per_chunk), writers):
-            for instance in instances[i:i + num_instances_per_chunk]:
+        writers = [
+            stack.enter_context(JsonlWriter(f"{args.output_dir}/{i}.jsonl.gz"))
+            for i in range(args.num_batches)
+        ]
+        for i, writer in zip(
+            range(0, len(instances), num_instances_per_chunk), writers
+        ):
+            for instance in instances[i : i + num_instances_per_chunk]:
                 writer.write(instance)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     argp = argparse.ArgumentParser()
     argp.add_argument("--input-jsonl", required=True)
     argp.add_argument("--num-batches", required=True, type=int)

@@ -20,7 +20,7 @@ def main(args):
                 out.write(instance)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     argp = argparse.ArgumentParser()
     argp.add_argument("--input-jsonl", required=True)
     argp.add_argument("--output-jsonl", required=True)

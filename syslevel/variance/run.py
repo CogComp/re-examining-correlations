@@ -48,7 +48,9 @@ def main(args):
     fontsize = 16
 
     Xs_all, row_labels_all = load_matrices(args.all_metrics_jsonl, False, METRICS)
-    Xs_judged, row_labels_judged = load_matrices(args.judged_metrics_jsonl, True, METRICS)
+    Xs_judged, row_labels_judged = load_matrices(
+        args.judged_metrics_jsonl, True, METRICS
+    )
 
     assert sorted(row_labels_all) == sorted(row_labels_judged)
     num_systems = len(row_labels_all)
@@ -57,7 +59,9 @@ def main(args):
         samples_all = bootstrap_system_scores(X_all, num_iterations)
         samples_judged = bootstrap_system_scores(X_judged, num_iterations)
 
-        samples_all, samples_judged = align_samples(samples_all, samples_judged, row_labels_all, row_labels_judged)
+        samples_all, samples_judged = align_samples(
+            samples_all, samples_judged, row_labels_all, row_labels_judged
+        )
 
         variance_all = calculate_average_variance(samples_all)
         variance_judged = calculate_average_variance(samples_judged)
@@ -73,7 +77,11 @@ def main(args):
 
         patches = [
             Patch(facecolor="tab:blue", edgecolor="tab:blue", label="Judged Instances"),
-            Patch(facecolor="tab:orange", edgecolor="tab:orange", label="All Test Instances"),
+            Patch(
+                facecolor="tab:orange",
+                edgecolor="tab:orange",
+                label="All Test Instances",
+            ),
         ]
         plt.legend(handles=patches, loc="lower right", fontsize=fontsize)
 
@@ -88,7 +96,7 @@ def main(args):
         plt.close()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     argp = argparse.ArgumentParser()
     argp.add_argument("--all-metrics-jsonl", required=True)
     argp.add_argument("--judged-metrics-jsonl", required=True)

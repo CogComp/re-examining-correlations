@@ -9,12 +9,12 @@ ROUGE_METRICS = ["ROUGE-1", "ROUGE-2", "ROUGE-L"]
 GROUND_TRUTH = "ground-truth"
 
 COLOR_MAP = {
-    'ROUGE-1': '#ed5564',
-    'ROUGE-2': '#ff965a',
-    'ROUGE-L': '#ad92eb',
-    'BERTScore': '#50c1e7',
-    'QAEval': '#a0d569',
-    GROUND_TRUTH: '#ad92eb'
+    "ROUGE-1": "#ed5564",
+    "ROUGE-2": "#ff965a",
+    "ROUGE-L": "#ad92eb",
+    "BERTScore": "#50c1e7",
+    "QAEval": "#a0d569",
+    GROUND_TRUTH: "#ad92eb",
 }
 
 
@@ -25,7 +25,9 @@ def _get_value(metrics_dict: Dict, key: Tuple[str, str], metric: str) -> float:
     return value
 
 
-def load_matrices(input_file: str, require_parallel: bool, metrics: List[str]) -> Tuple[List[np.ndarray], List[str]]:
+def load_matrices(
+    input_file: str, require_parallel: bool, metrics: List[str]
+) -> Tuple[List[np.ndarray], List[str]]:
     instance_ids = set()
     summarizer_ids = set()
     metrics_dict = {}
