@@ -27,3 +27,13 @@ The plots will be saved under the `experiments/<name>/output` directory.
 - Figure 5 (the system-level score distributions): `sh experiments/score-distribution/run.sh`
 - Figures 6 and 9 (the delta correlations): `sh experiments/delta-correlations/run.sh`
 - Figures 10 and 11 (the delta correlations heatmaps): `sh experiments/delta-correlations/run.sh`
+
+## Reproducibility Track
+The Docker image created by `Dockerfile` is our submission to the [NAACL 2022 Reproducibility Track](https://naacl2022-reproducibility-track.github.io/).
+It will reproduce the results that were plotted in Figure 6.
+
+It can be built and run using the following command:
+```shell script
+docker build -t re-examining .
+docker run -it re-examining
+```

@@ -90,6 +90,8 @@ def main(args):
                 x, first_row, color=COLOR_MAP[metric], label=metric
             )  # , linewidth=2.5)
 
+            print(dataset, metric, x, [f"{value:.2f}" for value in first_row])
+
             axes[i, j].set_xticks([0, 20, 40, 60, 80, 100])
             # axes[i, j].set_xticklabels(x, fontsize=fontsize)
             if args.rouge_only:
